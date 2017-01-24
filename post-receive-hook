@@ -1,0 +1,16 @@
+#!/bin/sh # Disallow all rebasing 
+echo "[Post-Receive]: Script to check if any new commited sql file contain delete statements "
+# Get the list of files that have changed
+# check for .sql files. 
+# search in those .sql file for 'delete from' keyword. 
+# Highlight those files as potential data changing files
+
+changed_sql_files_list=`git diff-tree --name-status -t -r --root HEAD | grep '.sql'`
+echo $changed_sql_files_list
+files_containing_delete=`git grep -l --all-match -e 'delete from'`
+echo $files_containing_delete
+#stats=`git diff --root HEAD`
+#echo $stats
+#git diff-tree --name-status -t -r --root HEAD | grep '.png'
+exit 1
+git diff --name-status --cached --diff-filter=AMRD
